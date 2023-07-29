@@ -1,5 +1,5 @@
 "use client";
-import directus from "@/lib/directus";
+import client from "@/lib/directus";
 import Image from "next/image";
 import { FormEvent, useState } from "react";
 
@@ -39,7 +39,7 @@ const CTACard = ({ dictionary }: { dictionary: any }) => {
     try {
       e.preventDefault();
       setIsHandling(true);
-      await directus.items("subscribers").createOne({
+      await client.items("subscribers").createOne({
         email,
       });
       setIsHandling(false);
