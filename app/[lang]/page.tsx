@@ -61,6 +61,8 @@ export default async function Home({
     notFound();
   }
 
+  console.log(posts);
+
   /* Get Dictionary */
   const dictionary = await getDictionary(locale);
 

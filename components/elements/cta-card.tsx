@@ -76,7 +76,7 @@ const CTACard = ({ dictionary }: { dictionary: any }) => {
           /*  key={subscribersCount + "subscribers-form"}
           action={formAction} */
           onSubmit={submitHandler}
-          className="flex items-center w-full gap-2 mt-6"
+          className="flex items-center w-full gap-2 mt-6" 
         >
           <input
             type="email"

@@ -5,7 +5,7 @@ export interface Post {
   category: Category;
   author: Author;
   slug: string;
-  image: string;
+  images: string;
   body: string;
   date_created: string;
   date_updated: string;
