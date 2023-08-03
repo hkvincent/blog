@@ -79,10 +79,10 @@ export default function RootLayout({
   gtag('js', new Date());
   gtag('config', 'G-11Y5YESB1F');`}</Script>
       <body className={inter.className}>
-        {/* @ts-expect-error Async Server Component */}
+
         <Navigation locale={lang} />
         <div className="pt-10 min-h-[calc(100vh-300px)]">{children}</div>
-        {/* @ts-expect-error Async Server Component */}
+
         <Footer locale={lang} />
       </body>
     </html>
