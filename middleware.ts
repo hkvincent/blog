@@ -11,10 +11,10 @@ function getLocale(request: NextRequest): string | undefined {
   const negotiatorHeaders: Record<string, string> = {};
 
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
-  console.log({negotiatorHeaders})
+
   // Use negotiator and intl-localematcher to get best locale
   let languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-  console.log({languages})
+
   // @ts-ignore locales are readonly
   const locales: string[] = i18n.locales;
   return matchLocale(languages, locales, i18n.defaultLocale);
