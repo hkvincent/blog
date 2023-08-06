@@ -34,17 +34,17 @@ export const getCategoryData = cache(
         const fetchedCategory = category?.data?.[0];
         const localisedCategory = {
           ...fetchedCategory,
-          title: fetchedCategory.translations[0].title,
-          description: fetchedCategory.translations[0].description,
+          title: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.title,
+          description: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.description,
           posts: fetchedCategory.posts.map((post: any) => {
             return {
               ...post,
-              title: post.translations[0].title,
-              description: post.translations[0].description,
-              body: post.translations[0].body,
+              title: post.translations.find((translate: any) => translate.languages_code === locale)?.title,
+              description: post.translations.find((translate: any) => translate.languages_code === locale)?.description,
+              body: post.translations.find((translate: any) => translate.languages_code === locale)?.body,
               category: {
                 ...post.category,
-                title: fetchedCategory.translations[0].title,
+                title: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.title,
               },
             };
           }),

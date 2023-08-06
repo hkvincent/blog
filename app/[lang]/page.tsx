@@ -36,12 +36,12 @@ export default async function Home({
         const localisedPosts = posts.data?.map((post) => {
           return {
             ...post,
-            title: post.translations[0].title,
-            description: post.translations[0].description,
-            body: post.translations[0].body,
+            title: post.translations.find((translate: any) => translate.languages_code === locale)?.title,
+            description: post.translations.find((translate: any) => translate.languages_code === locale)?.description,
+            body: post.translations.find((translate: any) => translate.languages_code === locale)?.body,
             category: {
               ...post.category,
-              title: post.category.translations[0].title,
+              title: post.category.translations.find((translate: any) => translate.languages_code === locale)?.title,
             },
           };
         });
@@ -50,7 +50,7 @@ export default async function Home({
 
       /* console.log(posts.data?.[0]); */
     } catch (error) {
-      console.log(error);
+      console.error(error);
       throw new Error("Error fetching posts");
     }
   };

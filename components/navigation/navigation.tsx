@@ -15,7 +15,7 @@ const Navigation = async ({ locale }: { locale: string }) => {
           {/* Category Links */}
           <nav>
             <ul className="flex items-center gap-4 text-neutral-600">
-              <li>
+              <li >
                 <LangSwitcher locale={locale} />
               </li>
               <li>

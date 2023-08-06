@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import readingTime from "reading-time";
 
 export const getReadingTime = (text: string, locale: string) => {
-  const minute = readingTime(text).minutes;
+  const minute = readingTime(text ?? 0).minutes;
   // Floor to 1 decimal place
   const minutesRounded = Math.floor(minute);
   if (locale === "de") {
