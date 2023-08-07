@@ -1,62 +1,10 @@
 import PaddingContainer from "@/components/layout/padding-container";
 import PostList from "@/components/post/post-lists";
 import directus from "@/lib/directus";
+import { getCategoryData } from "@/lib/helpers";
 import { Post } from "@/types/collection";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-
-// Get Category Data
-export const getCategoryData = cache(
-  async (categorySlug: string, locale: string) => {
-    try {
-      const category = await directus.items("category").readByQuery({
-        filter: {
-          slug: {
-            _eq: categorySlug,
-          },
-        },
-        fields: [
-          "*",
-          "translations.*",
-          "posts.*",
-          "posts.author.id",
-          "posts.author.first_name",
-          "posts.author.last_name",
-          "posts.category.id",
-          "posts.category.title",
-          "posts.translations.*",
-        ],
-      });
-
-      if (locale === "en") {
-        return category?.data?.[0];
-      } else {
-        const fetchedCategory = category?.data?.[0];
-        const localisedCategory = {
-          ...fetchedCategory,
-          title: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.title,
-          description: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.description,
-          posts: fetchedCategory.posts.map((post: any) => {
-            return {
-              ...post,
-              title: post.translations.find((translate: any) => translate.languages_code === locale)?.title,
-              description: post.translations.find((translate: any) => translate.languages_code === locale)?.description,
-              body: post.translations.find((translate: any) => translate.languages_code === locale)?.body,
-              category: {
-                ...post.category,
-                title: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.title,
-              },
-            };
-          }),
-        };
-        return localisedCategory;
-      }
-    } catch (error) {
-      console.log(error);
-      throw new Error("Error fetching category");
-    }
-  }
-);
 
 // Generate Metadata Function
 export const generateMetadata = async ({
@@ -97,6 +45,8 @@ export const generateMetadata = async ({
     },
   };
 };
+
+
 
 export const generateStaticParams = async () => {
   // This for DUMMY DATA Approach
