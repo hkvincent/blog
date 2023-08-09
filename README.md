@@ -2,7 +2,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, using docker-compose to run the directus which is CMS system to let you write your data
+
+Second, edit the env file, pass your own value to them
+NEXT_PUBLIIC_SITE_URL=
+NEXT_PUBLIC_API_URL=
+ADMIN_TOKEN=
+NEXT_PUBLIC_ASSETS_URL=
+
+after that, run the development server:
 
 ```bash
 npm run dev

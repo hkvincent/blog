@@ -41,6 +41,7 @@ export const generateMetadata = async ({
       languages: {
         "en-US": `${process.env.NEXT_PUBLIC_SITE_URL}/en/${category}`,
         "de-DE": `${process.env.NEXT_PUBLIC_SITE_URL}/de/${category}`,
+        "zh-TW": `${process.env.NEXT_PUBLIC_SITE_URL}/zh/${category}`,
       },
     },
   };

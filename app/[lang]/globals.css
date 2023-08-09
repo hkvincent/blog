@@ -16,3 +16,6 @@
   }
 }
 
+body {
+  font-family: 'Arial', sans-serif; /* Arial generally supports emojis */
+}

@@ -53,6 +53,9 @@ import Select from "react-select";
 
 
 const LangSwitcher = ({ locale }: { locale: string }) => {
+
+  const getFlagEmoji = (countryCode: any) => String.fromCodePoint(...[...countryCode.toUpperCase()].map(x => 0x1f1a5 + x.charCodeAt()))
+
   const options = [
     { value: "en", label: "🇬🇧 EN" },
     { value: "de", label: "🇩🇪 DE" },
@@ -85,6 +88,7 @@ const LangSwitcher = ({ locale }: { locale: string }) => {
       backgroundColor: 'transparent',
     }),
   };
+
 
 
   return (
