@@ -20,6 +20,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(post.date_updated),
       },
       {
+        url: `${baseURL}/zh/blog/${post.slug}`,
+        lastModified: new Date(post.date_updated),
+      },
+      {
         url: `${baseURL}/blog/${post.slug}`,
         lastModified: new Date(post.date_updated),
       },
@@ -42,6 +46,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
       },
       {
+        url: `${baseURL}/zh/${category.slug}`,
+        lastModified: new Date(),
+      },
+      {
         url: `${baseURL}/${category.slug}`,
         lastModified: new Date(),
       },
@@ -61,6 +69,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: `${baseURL}/de`,
+      lastModified: new Date(),
+    },
+    {
+      url: `${baseURL}/zh`,
       lastModified: new Date(),
     },
     ...dynamicLinks,

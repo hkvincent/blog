@@ -61,9 +61,9 @@ const Footer = async ({ locale }: { locale: string }) => {
             {dictionary.footer.creatorText}{" "}
             <Link
               className="underline underline-offset-4"
-              href="https://twitter.com/makrdev"
+              href="https://vincentchan.info"
             >
-              @makrdev
+              @vincent
             </Link>
           </div>
         </div>

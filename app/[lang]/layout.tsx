@@ -71,19 +71,15 @@ export default function RootLayout({
   return (
     <html lang={lang}>
       {/* Google Analytics Script */}
-      <Script
-        strategy="afterInteractive"
-        src="https://www.googletagmanager.com/gtag/js?id=G-11Y5YESB1F"
-      ></Script>
+      <Script strategy="afterInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-LRBVBNB446"></Script>
       <Script id="google-analytics">{`window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-11Y5YESB1F');`}</Script>
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', 'G-LRBVBNB446');`}
+      </Script>
       <body className={inter.className}>
-
         <Navigation locale={lang} />
         <div className="pt-10 min-h-[calc(100vh-300px)]">{children}</div>
-
         <Footer locale={lang} />
       </body>
     </html>
