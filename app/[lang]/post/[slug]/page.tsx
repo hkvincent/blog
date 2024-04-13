@@ -22,7 +22,8 @@ export const generateMetadata = async ({
 }) => {
   // Get Post Data from Directus
   const post = await getPostData(slug, lang);
-
+  
+  
   return {
     title: post?.title,
     description: post?.description,

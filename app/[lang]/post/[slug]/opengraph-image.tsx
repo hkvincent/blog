@@ -17,7 +17,6 @@ export default async function og({
 }) {
   // Get Data from CMS
   const post = await getPostData(slug, lang);
-
   return new ImageResponse(
     (
       <div tw="relative flex w-full h-full flex items-center justify-center">
@@ -25,8 +24,10 @@ export default async function og({
         <div tw="absolute flex inset-0">
           <img
             tw="flex flex-1 object-cover w-full h-full object-center"
-            src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${post.image}`}
+            src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${post.images}`}
             alt={post?.title!!}
+            width={size.width}
+            height={size.height}
           />
           {/* Overlay */}
           <div tw="absolute flex inset-0 bg-black bg-opacity-50" />
