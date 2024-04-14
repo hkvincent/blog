@@ -7,6 +7,7 @@ import siteConfig from "@/config/site";
 import directus from "@/lib/directus";
 import { getDictionary } from "@/lib/getDictionary";
 import { getPostData } from "@/lib/helpers";
+import { readItem, readItems } from "@directus/sdk";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
@@ -22,8 +23,8 @@ export const generateMetadata = async ({
 }) => {
   // Get Post Data from Directus
   const post = await getPostData(slug, lang);
-  
-  
+
+
   return {
     title: post?.title,
     description: post?.description,
@@ -61,23 +62,27 @@ export const generateStaticParams = async () => {
     };
   }); */
   try {
-    const posts = await directus.items("post").readByQuery({
-      filter: {
-        status: {
-          _eq: "published",
-        },
-      },
-      fields: ["slug"],
-    });
 
-    const params = posts?.data?.map((post) => {
+    const posts = await directus.request(
+      readItems('post', {
+        filter: {
+          status: {
+            _eq: "published",
+          },
+        },
+        fields: ["slug"],
+      })
+    );
+
+
+    const params = posts?.map((post) => {
       return {
         slug: post.slug as string,
         lang: "en",
       };
     });
 
-    const localisedParams = posts?.data?.map((post) => {
+    const localisedParams = posts?.map((post) => {
       return {
         slug: post.slug as string,
         lang: "de",
@@ -107,8 +112,8 @@ const Page = async ({
   const locale = params.lang;
   const postSlug = params.slug;
 
-  const post = await getPostData(postSlug, locale);
-
+  const post: any = await getPostData(postSlug, locale);
+  console.log(post);
   /* Structured Data for Google */
   const jsonLd = {
     "@context": "https://schema.org",

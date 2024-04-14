@@ -3,6 +3,7 @@ import PostList from "@/components/post/post-lists";
 import directus from "@/lib/directus";
 import { getCategoryData } from "@/lib/helpers";
 import { Post } from "@/types/collection";
+import { readItems } from "@directus/sdk";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
@@ -58,23 +59,27 @@ export const generateStaticParams = async () => {
   }); */
 
   try {
-    const categories = await directus.items("category").readByQuery({
-      filter: {
-        status: {
-          _eq: "published",
+    const categories = await directus.request(
+      readItems('category', {
+        filter: {
+          status: {
+            _eq: "published",
+          },
         },
-      },
-      fields: ["slug"],
-    });
+        fields: [
+          "slug"]
+      })
+    );
 
-    const params = categories?.data?.map((category) => {
+    console.log(categories);
+    const params = categories?.map((category) => {
       return {
         category: category.slug as string,
         lang: "en",
       };
     });
 
-    const localisedParams = categories?.data?.map((category) => {
+    const localisedParams = categories?.map((category) => {
       return {
         category: category.slug as string,
         lang: "de",

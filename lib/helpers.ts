@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import readingTime from "reading-time";
 import directus from "./directus";
 import { cache } from "react";
+import { readItems } from "@directus/sdk";
 
 export const getReadingTime = (text: string, locale: string) => {
   const minute = readingTime(text ?? 0).minutes;
@@ -32,34 +33,36 @@ export const getRelativeDate = (date: string, locale: string) => {
 export const getCategoryData: (categorySlug: string, locale: string) => Promise<any> = cache(
   async (categorySlug: string, locale: string) => {
     try {
-      const category = await directus.items("category").readByQuery({
-        filter: {
-          slug: {
-            _eq: categorySlug,
+
+      const categories = await directus.request(
+        readItems('category', {
+          filter: {
+            status: {
+              _eq: "published",
+            },
           },
-        },
-        fields: [
-          "*",
-          "translations.*",
-          "posts.*",
-          "posts.author.id",
-          "posts.author.first_name",
-          "posts.author.last_name",
-          "posts.category.id",
-          "posts.category.title",
-          "posts.translations.*",
-        ],
-      });
+          fields: ["slug", {
+            translations: ['*'],
+            posts: ['*', {
+              category: ['id', 'title', 'translations', {
+                translations: ['*']
+              }],
+            }]
+          }]
+        })
+      );
+
+
 
       if (locale === "en") {
-        return category?.data?.[0];
+        return categories?.[0];
       } else {
-        const fetchedCategory = category?.data?.[0];
+        const fetchedCategory = categories?.[0];
         const localisedCategory = {
           ...fetchedCategory,
-          title: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.title,
-          description: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.description,
-          posts: fetchedCategory.posts.map((post: any) => {
+          title: fetchedCategory.translations?.find((translate: any) => translate.languages_code === locale)?.title,
+          description: fetchedCategory.translations?.find((translate: any) => translate.languages_code === locale)?.description,
+          posts: fetchedCategory.posts?.map((post: any) => {
             return {
               ...post,
               title: post.translations.find((translate: any) => translate.languages_code === locale)?.title,
@@ -67,7 +70,7 @@ export const getCategoryData: (categorySlug: string, locale: string) => Promise<
               body: post.translations.find((translate: any) => translate.languages_code === locale)?.body,
               category: {
                 ...post.category,
-                title: fetchedCategory.translations.find((translate: any) => translate.languages_code === locale)?.title,
+                title: fetchedCategory.translations?.find((translate: any) => translate.languages_code === locale)?.title,
               },
             };
           }),
@@ -85,25 +88,28 @@ export const getCategoryData: (categorySlug: string, locale: string) => Promise<
 // Get Post Data
 export const getPostData = cache(async (postSlug: string, locale: string) => {
   try {
-    const post = await directus.items("post").readByQuery({
-      filter: {
-        slug: {
-          _eq: postSlug,
+    const posts = await directus.request(
+      readItems('post', {
+        filter: {
+          slug: {
+            _eq: postSlug,
+          },
         },
-      },
-      fields: [
-        "*",
-        "category.id",
-        "category.title",
-        "auhtor.id",
-        "author.first_name",
-        "author.last_name",
-        "translations.*",
-        "category.translations.*",
-      ],
-    });
+        fields: [
+          "*",
+          {
+            author: ['id', 'first_name', 'last_name'],
+            category: ['id', 'title', 'translations', {
+              translations: ['*']
+            }],
+            translations: ['*']
+          }
+        ]
+      })
+    );
 
-    const postData = post?.data?.[0];
+    const postData = posts?.[0];
+    console.log(postData);
 
     if (locale === "en") {
       return postData;

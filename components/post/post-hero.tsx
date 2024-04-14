@@ -3,7 +3,7 @@ import Image from "next/image";
 import PostContent from "./post-content";
 
 interface PostHeroProps {
-  post: Post;
+  post: any;
   locale: string;
 }
 const PostHero = ({ post, locale }: PostHeroProps) => {

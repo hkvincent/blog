@@ -4,6 +4,7 @@ import PostCard from "@/components/post/post-card";
 import PostList from "@/components/post/post-lists";
 import directus from "@/lib/directus";
 import { getDictionary } from "@/lib/getDictionary";
+import { readItem, readItems } from "@directus/sdk";
 import { notFound } from "next/navigation";
 
 export default async function Home({
@@ -17,23 +18,25 @@ export default async function Home({
 
   const getAllPosts = async () => {
     try {
-      const posts = await directus.items("post").readByQuery({
-        fields: [
-          "*",
-          "author.id",
-          "author.first_name",
-          "author.last_name",
-          "category.id",
-          "category.title",
-          "category.translations.*",
-          "translations.*",
-        ],
-      });
-
+      const posts: any = await directus.request(
+        readItems('post', {
+          fields: [
+            "*",
+            {
+              author: ['id', 'first_name', 'last_name'],
+              category: ['id', 'title', 'translations', {
+                translations: ['*']
+              }],
+              translations: ['*']
+            }
+          ]
+        })
+      );
+      console.log(posts);
       if (locale === "en") {
-        return posts.data;
+        return posts;
       } else {
-        const localisedPosts = posts.data?.map((post) => {
+        const localisedPosts = posts?.map((post: any) => {
           return {
             ...post,
             title: post.translations.find((translate: any) => translate.languages_code === locale)?.title,
@@ -70,14 +73,14 @@ export default async function Home({
         <PostCard locale={locale} post={posts[0]} />
         <PostList
           locale={locale}
-          posts={posts.filter((_post, index) => index > 0 && index < 3)}
+          posts={posts.filter((_post: any, index: number) => index > 0 && index < 3)}
         />
         {/* ---@ts-expect-error Async Server Component */}
         <CTACard dictionary={dictionary} />
         <PostCard locale={locale} reverse post={posts[3]} />
         <PostList
           locale={locale}
-          posts={posts.filter((_post, index) => index > 3 && index < 6)}
+          posts={posts.filter((_post: any, index: number) => index > 3 && index < 6)}
         />
       </main>
     </PaddingContainer>

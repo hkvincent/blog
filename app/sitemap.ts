@@ -1,15 +1,21 @@
 import directus from "@/lib/directus";
 import { MetadataRoute } from "next";
-
+import { readItems } from "@directus/sdk";
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseURL = process.env.NEXT_PUBLIC_SITE_URL as string;
 
   // Get Posts
-  const posts = await directus.items("post").readByQuery({
-    fields: ["slug", "date_updated"],
-  });
+  // const posts = await directus.items("post").readByQuery({
+  //   fields: ["slug", "date_updated"],
+  // });
 
-  const postLinks = posts?.data?.map((post) => {
+  const posts = await directus.request(
+    readItems('post', {
+      fields: ["slug", "date_updated"],
+    })
+  );
+
+  const postLinks = posts?.map((post) => {
     return [
       {
         url: `${baseURL}/en/blog/${post.slug}`,
@@ -31,11 +37,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   // Get Categories
-  const categories = await directus.items("category").readByQuery({
-    fields: ["slug", "date_updated"],
-  });
+  // const categories = await directus.items("category").readByQuery({
+  //   fields: ["slug", "date_updated"],
+  // });
 
-  const categoryLinks = categories?.data?.map((category) => {
+  const categories = await directus.request(
+    readItems('category', {
+      fields: ["slug", "date_updated"],
+    })
+  );
+
+
+  const categoryLinks = categories?.map((category) => {
     return [
       {
         url: `${baseURL}/en/${category.slug}`,
