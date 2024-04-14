@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { getPostData, getReadingTime, getRelativeDate } from "@/lib/helpers";
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 
 export const size = {
   width: 1200,
@@ -24,7 +24,7 @@ export default async function og({
         <div tw="absolute flex inset-0">
           <img
             tw="flex flex-1 object-cover w-full h-full object-center"
-            src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${post.images}`}
+            src={`${process.env.NEXT_PUBLIC_ASSETS_URL}${(post as any).images}`}
             alt={post?.title!!}
             width={size.width}
             height={size.height}
@@ -40,20 +40,19 @@ export default async function og({
           {/* Tags */}
           <div tw="flex mt-6 flex-wrap items-center text-3xl text-neutral-200">
             <div
-              tw={`font-medium ${
-                post?.category.title === "Cities"
-                  ? "text-emerald-600"
-                  : "text-indigo-600"
-              }`}
+              tw={`font-medium ${post?.category.title === "Cities"
+                ? "text-emerald-600"
+                : "text-indigo-600"
+                }`}
             >
               {post?.category.title}
             </div>
             <div tw="w-4 h-4 mx-6 rounded-full bg-neutral-300 " />
-            <div>{`${post?.author.first_name} ${post?.author.last_name}`}</div>
+            <div>{`${(post as any)?.author.first_name} ${(post as any)?.author.last_name}`}</div>
             <div tw="w-4 h-4 mx-6 rounded-full bg-neutral-300" />
             <div>{getReadingTime(post?.body!!, lang)}</div>
             <div tw="w-4 h-4 mx-6 rounded-full bg-neutral-300" />
-            <div>{getRelativeDate(post?.date_created!!, lang)}</div>
+            <div>{getRelativeDate((post as any)?.date_created!!, lang)}</div>
           </div>
         </div>
       </div>

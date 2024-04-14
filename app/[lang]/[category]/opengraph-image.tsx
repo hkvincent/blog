@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { getCategoryData } from "@/lib/helpers";
-import { ImageResponse } from "next/server";
+import { ImageResponse } from "next/og";
 
 export const size = {
   width: 1200,
@@ -30,12 +30,11 @@ export default async function og({
           />
           {/* Overlay */}
           <div
-            tw={`absolute flex inset-0 bg-opacity-80 ${
-              categoryData?.title === "Cities" ||
-              categoryData?.title === "Städte"
+            tw={`absolute flex inset-0 bg-opacity-80 ${categoryData?.title === "Cities" ||
+                categoryData?.title === "Städte"
                 ? "bg-emerald-600"
                 : "bg-indigo-600"
-            }`}
+              }`}
           />
         </div>
         <div tw="flex flex-col text-white">
